@@ -386,6 +386,91 @@
     }
 
     /* ========= Portfolio / Contact 틀 ========= */
+    .pf_list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2 x 2 그리드 */
+        gap: 24px;
+        margin-top: 24px;
+    }
+
+    .pf_item {
+        background: #050816;
+        border-radius: 12px;
+        padding: 16px;
+        border: 1px solid rgba(148, 163, 184, 0.25);
+        box-shadow: 0 14px 40px rgba(15, 23, 42, 0.8);
+        transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .pf_item a {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .pf_item:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 50px rgba(15, 23, 42, 0.95);
+        border-color: rgba(96, 165, 250, 0.8);
+    }
+
+    /* 정사각형 썸네일 영역 */
+    .pf_thumb {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 1 / 1;               /* 정사각형 */
+        overflow: hidden;
+        border-radius: 10px;
+        background: radial-gradient(circle at top, #1f2937, #020617);
+        margin-bottom: 12px;
+    }
+
+    .pf_thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.4s ease, filter 0.4s ease;
+    }
+
+    .pf_item:hover .pf_thumb img {
+        transform: scale(1.05);
+        filter: brightness(1.15);
+    }
+
+    /* "작업 예정" 배지 */
+    .pf_badge {
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 11px;
+        letter-spacing: 0.03em;
+        background: rgba(15, 23, 42, 0.85);
+        color: #dbeafe;
+        border: 1px solid rgba(148, 163, 184, 0.7);
+    }
+
+    /* 텍스트 */
+    .pf_item h3 {
+        font-size: 16px;
+        margin: 4px 0 4px;
+    }
+
+    .pf_item p {
+        font-size: 13px;
+        line-height: 1.5;
+        color: #9ca3af;
+    }
+
+    /* 모바일 반응형 */
+    @media (max-width: 768px) {
+        .pf_list {
+            grid-template-columns: 1fr; /* 1열 */
+        }
+    }
+
     #page3 .page_inner,
     #page4 .page_inner {
         max-width: 1080px;
