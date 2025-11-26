@@ -46,7 +46,7 @@ body {
     transform:translateY(-2px) scale(1.08);
 }
 
-/* ======== 영상 FULLSCREEN ======== */
+/* ===== 영상 FULLSCREEN ===== */
 .fullscreen-hero {
     position:relative; width:100vw; height:100vh; overflow:hidden; background:#020a1a;
     top:0; left:0; z-index:0;
@@ -64,53 +64,66 @@ body {
     font-size:2.2em; letter-spacing:0.15em; font-weight:700;
     text-shadow:0 4px 24px #0a1336,0 1px 8px #314178; margin-bottom:0.5em;
 }
-.fullscreen-hero .vs-title p {
-    font-size:18px; opacity:0.87; text-shadow:0 3px 12px #0a1336,0 1px 8px #192054;
-}
 .fullscreen-hero::after {
     content:""; position:absolute; inset:0;
     background:linear-gradient(to bottom,rgba(15,23,42,0.16),rgba(15,23,42,0.97) 92%);
     z-index:2; pointer-events:none;
 }
-@media (max-width:900px) {.fullscreen-hero .vs-title h2{font-size:1.45rem;} .fullscreen-hero .vs-title p{font-size:15px;}}
+@media (max-width:900px) {.fullscreen-hero .vs-title h2{font-size:1.45rem;}}
 
-/* ===== 메인 컨텐츠 ===== */
+/* ====== OBSCURA 장르 설명 영상 위(헤더 아래) ====== */
+.hero-genre {
+    position:absolute;
+    top:88px; left:0; right:0;
+    width:100vw;
+    text-align:center;
+    z-index:3;
+    pointer-events:none;
+    font-size:18px;
+    font-weight:500;
+    color:#cfdfff;
+    opacity:.93;
+    letter-spacing:0.08em;
+    text-shadow: 0 1px 16px #0a1336;
+}
+@media (max-width:900px){.hero-genre{ font-size:15px; top:86px;} }
+
 .content { position:relative; padding-top:0; z-index:1; background:none;}
-/* 영상과 첫 페이지 사이 넉넉한 여백 */
 .page {
     clear:both;
     width:100vw;
     min-height:100vh;
-    padding:120px 40px 120px;
+    padding:120px 0 120px;
     display:flex; flex-direction:column; align-items:center;
     background:none; z-index:2;
-    scroll-margin-top:108px; /* 헤더 높이 + 마진 */
+    scroll-margin-top:115px;
 }
-@media (max-width:900px) { .page{ padding:80px 6vw 60px; scroll-margin-top:76px;} }
+@media (max-width:900px) { .page { padding:80px 0 60px; scroll-margin-top:80px; } }
 .page_title {
     text-align:center;
     font-size:26px; margin-bottom:32px;
     letter-spacing:0.18em; text-transform:uppercase; color:#e5e7eb;
 }
 
-/* ===== 인트로 flex, 텍스트 보정 ===== */
+/* ===== 인트로 flex, 텍스트 보정: 너비/높이 건드림 ===== */
 .intro_wrap {
-    display:flex; align-items:center; justify-content:center; gap:46px;
-    padding:40px 0 16px;
-    max-width:1050px; width:100%; margin:0 auto; box-sizing:border-box;
+    display:flex; align-items:center; justify-content:center; gap:56px;
+    padding:38px 0 18px;
+    max-width:1200px; width:100vw; margin:0 auto; box-sizing:border-box;
 }
 .intro_img {
-    flex:0 0 210px;
-    width:210px; height:210px;
-    min-width:150px; max-width: 280px;
+    flex:0 0 225px;
+    width:225px; height:225px;
+    min-width:180px; max-width:260px;
     display:flex; align-items:center; justify-content:center;
 }
 .intro_img img {
-    width:200px; height:200px;
+    width:220px; height:220px; min-width:180px; min-height:180px; max-width:254px; max-height:254px;
     border-radius:50%;
-    object-fit:cover; background:#181929;
+    object-fit:cover;
+    background:#181929;
     box-shadow:0 8px 28px rgba(15,23,42,0.65);
-    border:4px solid rgba(248,250,252,0.78);
+    border:5px solid rgba(248,250,252,0.82);
     transition:box-shadow 0.5s, transform 0.32s;
 }
 .intro_img img:hover {
@@ -118,8 +131,8 @@ body {
     box-shadow:0 18px 52px rgba(15,23,42,0.85);
 }
 .intro_text {
-    flex:1 1 500px;
-    min-width:240px; max-width:690px; padding:0 6px;
+    flex:1 0 680px;
+    min-width:320px; max-width:930px; padding:0 8px;
     align-self:center;
     display:flex; flex-direction:column; justify-content:center;
     word-break:break-word;
@@ -127,27 +140,35 @@ body {
 .intro_text h3 {font-size:27px; margin-bottom:12px; color:#f9fafb; letter-spacing:0.06em;}
 .intro_text h4 {font-size:16px; margin-bottom:18px; color:#9ca3af; letter-spacing:0.14em; text-transform:uppercase;}
 .intro_text p {
-    font-size:15.5px; line-height:2.0; margin-bottom:7px; color:#e5e7eb; opacity:0.97;
+    font-size:16px; line-height:2.05; margin-bottom:7px; color:#e5e7eb; opacity:0.97;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    white-space: pre-line;
 }
 .intro_text p strong {color:#7fd3ff;}
 @media (max-width:900px) {
-    .intro_wrap{ flex-direction:column; gap:15px; padding:24px 0 10px;}
-    .intro_img{ align-self:center; }
-    .intro_text{ max-width:98vw; min-width:120px; padding:0 1vw;}
-    .intro_img img{ width:160px; height:160px;}
+    .intro_wrap{ flex-direction:column; gap:19px; padding:24px 0 10px; max-width:95vw;}
+    .intro_img{ align-self:center; width:160px; height:160px;}
+    .intro_img img{ min-width:120px; min-height:120px; width:130px; height:130px;}
+    .intro_text{ min-width:80px; max-width:98vw; padding:0 1vw;}
 }
-@media (max-width:600px) { .intro_text h3{ font-size:21px;} .intro_text h4{ font-size:13px;} }
+@media (max-width:600px) {
+    .intro_text h3{ font-size:21px;}
+    .intro_text h4{ font-size:13px;}
+}
 .intro_list {
-    list-style:none; max-width:520px; font-size:15.5px; line-height:2.0; margin:10px 0 0 0; word-break:keep-all; padding-left:0;
+    list-style:none; max-width:720px; font-size:15.8px; line-height:2.17; margin:12px 0 0 0; word-break:keep-all; padding-left:0;
 }
-.intro_list li {margin-bottom:6px; display:flex; flex-wrap:wrap; gap:5px;}
+.intro_list li {margin-bottom:7px; display:flex; flex-wrap:wrap; gap:5px;}
 .intro_list strong {min-width:80px; color:#a9ddff; font-weight:600;}
 .intro_list span {opacity:0.92;}
 
-/* ===== 스킬/포트폴리오 호버 등 그대로 ===== */
+/* ===== 스킬/포트폴리오 호버 등 ===== */
 .skill_list{display:flex; gap:18px; align-items:stretch; justify-content:flex-start; padding:32px 20px 20px; max-width:1080px; margin:0 auto; box-sizing:border-box; overflow:hidden; flex-wrap:wrap;}
-.skill_item{ flex:1 1 220px; background:radial-gradient(circle at top left,#1e293b 0,#020617 55%); border-radius:14px; padding:18px 18px 16px; box-shadow:0 12px 32px rgba(15,23,42,0.82); transition:transform 0.4s,box-shadow 0.36s,border-color 0.4s; display:flex; flex-direction:column; gap:10px; border:1px solid rgba(148,163,184,0.33); cursor:pointer; position:relative;}
-.skill_item:hover{ transform:scale(1.035) translateY(-4px); box-shadow:0 18px 48px rgba(15,23,42,0.96); border-color:#38bdf8;}
+.skill_item{ flex:1 1 220px; background:radial-gradient(circle at top left,#1e293b 0,#020617 55%); border-radius:14px; padding:18px 18px 16px; box-shadow:0 12px 32px rgba(15,23,42,0.82); transition:transform 1s cubic-bezier(.2,.9,.2,1),box-shadow 0.36s,border-color 0.4s; display:flex; flex-direction:column; gap:10px; border:1px solid rgba(148,163,184,0.33); cursor:pointer; position:relative;}
+.skill_item.active { transform:rotate(360deg); box-shadow:0 18px 48px rgba(15,23,42,1);}
+.skill_item.active::after{ content:""; position:absolute; inset:0; border-radius:inherit; border:1px solid transparent; background:linear-gradient(120deg,rgba(56,189,248,0.9),rgba(244,114,182,0.9)) border-box; opacity:.12; pointer-events:none; mix-blend-mode:screen;}
+.skill_item:hover{ box-shadow:0 18px 48px rgba(15,23,42,0.96); background:radial-gradient(circle at top left,#1e293b 0,#23263b 55%);}
 .skill_name{ font-weight:700; font-size:15px; color:#e5e7eb;}
 .meter{ width:100%; background:#111827; height:14px; border-radius:999px; overflow:hidden; position:relative;}
 .meter span{ display:block; height:100%; width:0%; background:linear-gradient(90deg,#4ade80 0%,#22d3ee 40%,#38bdf8 100%); border-radius:999px; transition:width 1.2s cubic-bezier(.2,.9,.2,1), transform 1s;}
@@ -176,7 +197,6 @@ body {
 </head>
 <body>
 <div class="container">
-    <!-- HEADER / GNB -->
     <header class="hd">
         <nav id="gnb">
             <ul>
@@ -192,16 +212,17 @@ body {
             </ul>
         </nav>
     </header>
-    <!-- ===== VIDEOSCREEN ===== -->
+    <!-- ===== OBSCURA Genre 설명 영상 위 (헤더 아래) ===== -->
+    <div class="hero-genre">
+        Cinematic Interactive Mystery / Psychological-Detective Thriller Adventure Game
+    </div>
+    <!-- ===== FULLSCREEN HERO VIDEO ===== -->
     <section class="fullscreen-hero" id="fullscreen-hero">
         <video src="vs.mp4" autoplay muted loop playsinline></video>
         <div class="vs-title">
             <h2>OBSCURA PROJECT</h2>
-            <p>Cinematic Interactive Mystery / Psychological-Detective Thriller Adventure Game</p>
         </div>
     </section>
-
-    <!-- ===== MAIN CONTENT ===== -->
     <main class="content">
         <!-- PAGE 1 : INTRO -->
         <section class="page" id="page1">
@@ -230,7 +251,6 @@ body {
                 </ul>
             </div>
         </section>
-
         <!-- PAGE 2 : SKILL & ABILITY -->
         <section class="page" id="page2">
             <h2 class="page_title">Skill & Ability</h2>
@@ -351,7 +371,7 @@ body {
     </footer>
 </div>
 <script>
-// 상단 네비 클릭시 제목이 짤려 보이지 않게 offset으로 이동
+// 상단 네비 클릭시 제목 offset 보정 이동
 document.querySelectorAll('#gnb a').forEach(function(link) {
     link.addEventListener('click', function(e) {
         const href = link.getAttribute('href');
@@ -359,15 +379,15 @@ document.querySelectorAll('#gnb a').forEach(function(link) {
             e.preventDefault();
             const target = document.querySelector(href);
             if(target) {
-                // 헤더 높이 보정 (PC: 108px, 모바일: 76px)
-                let offset = window.innerWidth > 900 ? 108 : 76;
+                // 헤더+장르 높이 보정
+                let offset = window.innerWidth > 900 ? 115 : 80;
                 const targetTop = target.getBoundingClientRect().top + window.scrollY - offset;
                 window.scrollTo({top: targetTop, behavior: 'smooth'});
             }
         }
     });
 });
-// 스킬 애니메이션 (기존 그대로)
+// 스킬 바 및 회전 애니메이션 원본 적용
 document.addEventListener('DOMContentLoaded', function () {
     const skillItems = document.querySelectorAll('.skill_item');
     function runSkillAnimation() {
