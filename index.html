@@ -110,7 +110,7 @@
 
     /* ========= 메인 비디오 히어로 ========= */
     .content {
-        padding-top: 0px; /* 고정 헤더 높이 보정 */
+        padding-top: 180px; /* 고정 헤더 높이 보정 */
     }
 
     .vs {
@@ -169,7 +169,7 @@
         clear: both;
         width: 100vw;
         min-height: 100vh;
-        padding: 72px 20px 80px;
+        padding: 144px 40px 160px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -190,75 +190,12 @@
     }
 
     /* ========= Intro 영역 ========= */
-    /* ========== Hero Section (인트로) ========== */
-
-    .hero {
-        position: relative;
-        width: 100%;
-        min-height: 100vh;   /* 글 잘리는 문제 해결: 화면 전체 높이 확보 */
-        padding: 120px 40px 160px; 
-        display: flex;
-        flex-direction: column;
-        justify-content: center; 
-        color: #e2e8f0;
-        overflow: hidden;
-    }
-
-    /* 영상 배경 있을 때 */
-    .hero video,
-    .hero img {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        z-index: -2;
-    }
-
-    .hero_overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-            rgba(10, 15, 30, 0.8),
-            rgba(10, 15, 30, 0.95)
-        );
-        z-index: -1;
-    }
-
-    /* 텍스트 */
-    .hero h1 {
-        font-size: 48px;
-        font-weight: 800;
-        margin-bottom: 20px;
-    }
-
-    .hero p {
-        font-size: 18px;
-        line-height: 1.6;
-        max-width: 700px;
-    }
-
-    @media (max-width: 768px) {
-        .hero {
-            padding: 100px 20px 120px; /* 모바일에서 여백 줄이기 */
-        }
-
-        .hero h1 {
-            font-size: 34px;
-        }
-
-        .hero p {
-            font-size: 16px;
-        }
-    }
-
-
     .intro_wrap {
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 40px;
-        padding: 40px 20px;
+        padding: 80px 40px;
         max-width: 1080px;
         margin: 0 auto;
         box-sizing: border-box;
