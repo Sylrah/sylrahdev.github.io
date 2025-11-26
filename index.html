@@ -1,746 +1,679 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <title>Jin · Game Designer & Solo Dev</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    /* ---------- 기본 설정 ---------- */
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYLRAH · Game Designer & Solo Developer</title>
+    <link rel="stylesheet" href="style.css"><!-- 필요하면 별도 CSS에서도 추가 스타일링 -->
+    <style>
+    /* ========= 기본 리셋 ========= */
     * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
     }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Noto Sans KR",
-        sans-serif;
-      background: radial-gradient(circle at top, #1f2937 0, #020617 55%, #000 100%);
-      color: #e5e7eb;
-      line-height: 1.6;
-    }
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-    img {
-      max-width: 100%;
-      display: block;
-    }
-    .wrapper {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 24px 20px 64px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+            "Noto Sans KR", system-ui, sans-serif;
+        background: #050816;
+        color: #f5f5f5;
     }
 
-    /* ---------- 상단 헤더 / 내비 ---------- */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      backdrop-filter: blur(14px);
-      background: linear-gradient(to bottom, rgba(15, 23, 42, 0.9), transparent);
-      border-bottom: 1px solid rgba(148, 163, 184, 0.35);
-    }
-    .nav-inner {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 12px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      font-size: 13px;
-    }
-    .logo-mark {
-      width: 22px;
-      height: 22px;
-      border-radius: 999px;
-      background: conic-gradient(#f97316, #e11d48, #6366f1, #22c55e, #f97316);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2px;
-    }
-    .logo-mark-inner {
-      width: 100%;
-      height: 100%;
-      border-radius: inherit;
-      background: #020617;
-    }
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 18px;
-      font-size: 13px;
-    }
-    nav a {
-      padding: 4px 0;
-      border-bottom: 1px solid transparent;
-    }
-    nav a:hover {
-      border-color: #f97316;
+    /* 예전 연습용 p 스타일 덮어쓰기 (배경 없애기) */
+    p {
+        padding: 0;
+        background: transparent;
+        color: inherit;
     }
 
-    /* ---------- 히어로 / 인트로 ---------- */
-    .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.6fr);
-      gap: 28px;
-      align-items: center;
-      padding-top: 32px;
-      padding-bottom: 40px;
-      border-bottom: 1px solid rgba(148, 163, 184, 0.35);
-    }
-    @media (max-width: 800px) {
-      .hero {
-        grid-template-columns: 1fr;
-      }
+    .container {
+        width: 100vw;
+        overflow-x: hidden;
+        background: radial-gradient(circle at top, #111827 0, #020617 50%, #000 100%);
     }
 
-    .hero-title {
-      font-size: 32px;
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      margin-bottom: 10px;
-    }
-    .hero-sub {
-      font-size: 16px;
-      color: #9ca3af;
-      margin-bottom: 18px;
-    }
-    .hero-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 18px;
-    }
-    .tag {
-      font-size: 11px;
-      padding: 4px 9px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-    .hero-text {
-      font-size: 14px;
-      color: #e5e7eb;
-      margin-bottom: 16px;
-    }
-    .hero-text strong {
-      color: #f97316;
-      font-weight: 600;
-    }
-    .hero-meta {
-      font-size: 12px;
-      color: #9ca3af;
+    /* ========= 상단 고정 헤더 & GNB ========= */
+    .hd {
+        position: fixed;
+        width: 100%;
+        top: 0;
+        left: 0;
+        z-index: 999;
+        backdrop-filter: blur(14px);
+        background: linear-gradient(
+            to bottom,
+            rgba(3, 7, 18, 0.95),
+            rgba(3, 7, 18, 0.75),
+            transparent
+        );
+        border-bottom: 1px solid rgba(148, 163, 184, 0.25);
     }
 
-    /* 프로필 카드 */
-    .profile-card {
-      position: relative;
-      border-radius: 18px;
-      padding: 18px 18px 16px;
-      background: radial-gradient(circle at top left, #1f2937, #020617 60%);
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      display: grid;
-      grid-template-columns: 96px minmax(0, 1fr);
-      gap: 14px;
-      align-items: center;
-      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.75);
-    }
-    @media (max-width: 800px) {
-      .profile-card {
-        grid-template-columns: 80px minmax(0, 1fr);
-      }
-    }
-    .profile-avatar-wrap {
-      position: relative;
-      width: 96px;
-      height: 96px;
-      border-radius: 999px;
-      border: 2px solid rgba(248, 250, 252, 0.9);
-      overflow: hidden;
-      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.9), 0 12px 30px rgba(0, 0, 0, 0.8);
-    }
-    .profile-avatar {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .profile-illust {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      transition: opacity 200ms ease-out;
-    }
-    .profile-avatar-wrap:hover .profile-illust {
-      opacity: 1;
-    }
-    .status-dot {
-      position: absolute;
-      right: 4px;
-      bottom: 4px;
-      width: 12px;
-      height: 12px;
-      border-radius: 999px;
-      background: #22c55e;
-      box-shadow: 0 0 0 3px rgba(2, 6, 23, 0.85);
-    }
-    .profile-main h2 {
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 2px;
-    }
-    .profile-main h2 span {
-      font-size: 13px;
-      font-weight: 400;
-      color: #9ca3af;
-      margin-left: 6px;
-    }
-    .profile-main p {
-      font-size: 13px;
-      color: #cbd5f5;
-    }
-    .profile-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 6px;
-      font-size: 11px;
-      color: #9ca3af;
+    #gnb ul {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-width: 1200px;
+        margin: 0 auto;
     }
 
-    /* ---------- 섹션 공통 ---------- */
-    section {
-      padding: 28px 0;
-      border-bottom: 1px solid rgba(148, 163, 184, 0.25);
-    }
-    section:last-of-type {
-      border-bottom: none;
-    }
-    .section-title {
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 10px;
-    }
-    .section-sub {
-      font-size: 13px;
-      color: #9ca3af;
-      margin-bottom: 18px;
+    #gnb li {
+        width: 20%;
+        text-align: center;
     }
 
-    /* ---------- About ---------- */
-    .about-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.6fr);
-      gap: 18px;
-    }
-    @media (max-width: 880px) {
-      .about-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-    .about-block {
-      font-size: 14px;
-      color: #e5e7eb;
-      margin-bottom: 12px;
-    }
-    .about-block strong {
-      color: #f97316;
-    }
-    .timeline {
-      list-style: none;
-      font-size: 13px;
-      color: #d1d5db;
-      border-left: 1px solid rgba(148, 163, 184, 0.6);
-      padding-left: 14px;
-    }
-    .timeline li {
-      margin-bottom: 8px;
-      position: relative;
-    }
-    .timeline li::before {
-      content: "";
-      position: absolute;
-      left: -8px;
-      top: 6px;
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: #f97316;
-      box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.9);
+    #gnb .profile {
+        height: 90px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    /* ---------- Skills ---------- */
-    .skill-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-    }
-    @media (max-width: 980px) {
-      .skill-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-    @media (max-width: 640px) {
-      .skill-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-    .skill-card {
-      border-radius: 14px;
-      border: 1px solid rgba(148, 163, 184, 0.55);
-      background: radial-gradient(circle at top left, #111827, #020617 65%);
-      padding: 12px 13px 11px;
-      font-size: 13px;
-      box-shadow: 0 12px 26px rgba(15, 23, 42, 0.7);
-    }
-    .skill-card h3 {
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.11em;
-      color: #9ca3af;
-      margin-bottom: 6px;
-    }
-    .skill-main {
-      font-weight: 500;
-      margin-bottom: 6px;
-    }
-    .skill-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-    .skill-pill {
-      padding: 3px 7px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      font-size: 11px;
+    #gnb .profile img {
+        width: 72px;
+        height: 72px;
+        border-radius: 999px;
+        object-fit: cover;
+        border: 2px solid rgba(248, 250, 252, 0.85);
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.7);
+        transform: rotate(0deg);
+        transition: transform 1.6s ease;
     }
 
-    /* ---------- Portfolio ---------- */
-    .portfolio-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
-    }
-    @media (max-width: 980px) {
-      .portfolio-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-    @media (max-width: 640px) {
-      .portfolio-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-    .project-card {
-      border-radius: 16px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      overflow: hidden;
-      background: #020617;
-      display: flex;
-      flex-direction: column;
-      min-height: 180px;
-    }
-    .project-thumb {
-      height: 110px;
-      background: radial-gradient(circle at top, #f97316, #4b5563 40%, #020617);
-    }
-    .project-body {
-      padding: 10px 12px 12px;
-      font-size: 13px;
-    }
-    .project-body h3 {
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-    .project-meta {
-      font-size: 11px;
-      color: #9ca3af;
-      margin-bottom: 6px;
-    }
-    .project-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 4px;
-    }
-    .project-tag {
-      font-size: 10px;
-      padding: 3px 6px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
+    #gnb .profile:hover img {
+        transform: rotate(360deg);
     }
 
-    /* ---------- Contact ---------- */
-    .contact-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.2fr);
-      gap: 20px;
-    }
-    @media (max-width: 880px) {
-      .contact-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-    .contact-main {
-      font-size: 14px;
-      color: #e5e7eb;
-    }
-    .contact-main strong {
-      color: #f97316;
-    }
-    .contact-list {
-      list-style: none;
-      font-size: 13px;
-      margin-top: 10px;
-    }
-    .contact-list li {
-      margin-bottom: 6px;
-    }
-    .contact-list span {
-      color: #9ca3af;
-      margin-right: 8px;
-      font-size: 12px;
-    }
-    .contact-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 12px;
-    }
-    .btn {
-      font-size: 12px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.8);
-      background: rgba(15, 23, 42, 0.95);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .btn-primary {
-      border-color: #f97316;
-      background: linear-gradient(135deg, #f97316, #ea580c);
-      color: #111827;
-      font-weight: 600;
-    }
-    .btn:hover {
-      filter: brightness(1.05);
-      transform: translateY(-1px);
+    #gnb li a {
+        display: block;
+        line-height: 90px;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        color: #e5e7eb;
+        text-transform: uppercase;
+        transition: background-color 0.35s ease, color 0.35s ease, transform 0.25s ease;
     }
 
-    footer {
-      padding-top: 18px;
-      font-size: 11px;
-      color: #6b7280;
-      text-align: center;
+    #gnb li a:hover {
+        background-color: rgba(15, 23, 42, 0.9);
+        color: #38bdf8;
+        transform: translateY(-2px);
     }
-  </style>
+
+    /* ========= 메인 비디오 히어로 ========= */
+    .content {
+        padding-top: 90px; /* 고정 헤더 높이 보정 */
+    }
+
+    .vs {
+        display: block;
+        width: 100vw;
+        height: 60vh;
+        max-height: 640px;
+        position: relative;
+        overflow: hidden;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+        box-shadow: 0 20px 80px rgba(15, 23, 42, 0.8);
+    }
+
+    .vs video {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: saturate(0.9) contrast(1.05) brightness(0.95);
+    }
+
+    .vs::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            to bottom,
+            rgba(15, 23, 42, 0.3),
+            rgba(15, 23, 42, 0.85)
+        );
+        pointer-events: none;
+    }
+
+    .vs-title {
+        position: absolute;
+        inset: auto 0 48px 0;
+        text-align: center;
+        z-index: 2;
+        color: #e5e7eb;
+    }
+
+    .vs-title h1 {
+        font-size: 32px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+    }
+
+    .vs-title p {
+        font-size: 14px;
+        opacity: 0.85;
+    }
+
+    /* ========= 섹션 공통 ========= */
+    .page {
+        clear: both;
+        width: 100vw;
+        min-height: 100vh;
+        padding: 72px 20px 80px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #page1 { background: transparent; }
+    #page2 { background: #020617; }
+    #page3 { background: #020617; }
+    #page4 { background: #020617; }
+
+    .page_title {
+        text-align: center;
+        font-size: 26px;
+        margin-bottom: 32px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #e5e7eb;
+    }
+
+    /* ========= Intro 영역 ========= */
+    .intro_wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 40px;
+        padding: 40px 20px;
+        max-width: 1080px;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+
+    .intro_img {
+        flex: 0 0 280px;
+    }
+
+    .intro_img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 260px;
+        box-shadow: 0 16px 40px rgba(15, 23, 42, 0.9);
+        border: 6px solid rgba(248, 250, 252, 0.82);
+        transform: translateY(0);
+        transition: transform 0.8s ease, box-shadow 0.8s ease;
+        overflow: hidden;
+    }
+
+    .intro_img img:hover {
+        transform: translateY(-6px) rotate(-1.5deg);
+        box-shadow: 0 24px 60px rgba(15, 23, 42, 1);
+    }
+
+    .intro_text {
+        flex: 1;
+        max-width: 620px;
+    }
+
+    .intro_text h3 {
+        font-size: 26px;
+        margin-bottom: 12px;
+        color: #f9fafb;
+        letter-spacing: 0.06em;
+    }
+
+    .intro_text h4 {
+        font-size: 16px;
+        margin-bottom: 18px;
+        color: #9ca3af;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+    }
+
+    .intro_text p {
+        line-height: 1.8;
+        font-size: 15px;
+        color: #e5e7eb;
+        opacity: 0.92;
+    }
+
+    .intro_text p + p {
+        margin-top: 10px;
+    }
+
+    .intro_wrap + .intro_wrap {
+        padding-top: 0;
+    }
+
+    .intro_list {
+        list-style: none;
+        max-width: 520px;
+    }
+
+    .intro_list li {
+        font-size: 15px;
+        line-height: 1.8;
+        display: flex;
+        gap: 6px;
+        color: #e5e7eb;
+    }
+
+    .intro_list li + li {
+        margin-top: 4px;
+    }
+
+    .intro_list strong {
+        min-width: 96px;
+        color: #cbd5f5;
+        font-weight: 600;
+    }
+
+    .intro_list span {
+        opacity: 0.92;
+    }
+
+    /* ========= Skill & Ability ========= */
+    .skill_list {
+        display: flex;
+        gap: 18px;
+        align-items: stretch;
+        justify-content: flex-start;
+        padding: 32px 20px 20px;
+        max-width: 1080px;
+        margin: 0 auto;
+        box-sizing: border-box;
+        overflow: hidden;
+        flex-wrap: wrap;
+    }
+
+    .skill_item {
+        flex: 1 1 220px;
+        background: radial-gradient(circle at top left, #1e293b 0, #020617 55%);
+        border-radius: 14px;
+        padding: 18px 18px 16px;
+        box-shadow: 0 12px 32px rgba(15, 23, 42, 0.9);
+        transform-origin: center;
+        transition: transform 1s cubic-bezier(.2,.9,.2,1),
+                    box-shadow 0.8s ease,
+                    border 0.8s ease;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        position: relative;
+    }
+
+    .skill_item::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        border: 1px solid transparent;
+        background:
+            linear-gradient(120deg, rgba(56, 189, 248, 0.9), rgba(244, 114, 182, 0.9))
+            border-box;
+        opacity: 0;
+        transition: opacity 0.6s ease;
+        pointer-events: none;
+        mix-blend-mode: screen;
+    }
+
+    .skill_item.active {
+        transform: rotate(360deg);
+        box-shadow: 0 18px 48px rgba(15, 23, 42, 1);
+    }
+
+    .skill_item.active::after {
+        opacity: 0.12;
+    }
+
+    .skill_name {
+        font-weight: 700;
+        font-size: 15px;
+        color: #e5e7eb;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+    }
+
+    .meter {
+        width: 100%;
+        background: #111827;
+        height: 14px;
+        border-radius: 999px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+
+    .meter span {
+        display: block;
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #4ade80 0%, #22d3ee 40%, #38bdf8 100%);
+        border-radius: 999px;
+        transition: width 1.2s cubic-bezier(.2,.9,.2,1), transform 1s ease;
+        transform-origin: left center;
+        box-shadow: 0 2px 8px rgba(56, 189, 248, 0.35);
+    }
+
+    .skill_item.active .meter span {
+        width: var(--score, 80%);
+    }
+
+    .skill_text {
+        font-size: 13px;
+        line-height: 1.6;
+        color: #cbd5f5;
+        opacity: 0.9;
+    }
+
+    .skill_score {
+        font-size: 12px;
+        color: #9ca3af;
+        margin-top: 4px;
+    }
+
+    /* ========= Portfolio / Contact 틀 ========= */
+    #page3 .page_inner,
+    #page4 .page_inner {
+        max-width: 1080px;
+        width: 100%;
+        padding: 10px 20px;
+        color: #e5e7eb;
+        opacity: 0.9;
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+    #page4 a {
+        color: #38bdf8;
+        text-decoration: none;
+    }
+    #page4 a:hover {
+        text-decoration: underline;
+    }
+
+    /* ========= 반응형 ========= */
+    @media (max-width: 900px) {
+        #gnb li {
+            width: auto;
+            flex: 1;
+        }
+        #gnb .profile {
+            display: none;
+        }
+        .intro_wrap {
+            flex-direction: column;
+            gap: 24px;
+        }
+        .intro_img {
+            flex-basis: auto;
+            max-width: 260px;
+        }
+        .skill_list {
+            padding: 24px 16px 40px;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .vs {
+            height: 48vh;
+        }
+        .page {
+            padding-top: 56px;
+        }
+        .page_title {
+            font-size: 20px;
+        }
+        .intro_text h3 {
+            font-size: 22px;
+        }
+    }
+    </style>
 </head>
 <body>
-  <header>
-    <div class="nav-inner">
-      <div class="logo">
-        <div class="logo-mark">
-          <div class="logo-mark-inner"></div>
-        </div>
-        <span>JIN · GAME DESIGN</span>
-      </div>
-      <nav>
-        <ul>
-          <li><a href="#about">About</a></li>
-          <li><a href="#skills">Skills</a></li>
-          <li><a href="#portfolio">Portfolio</a></li>
-          <li><a href="#contact">Contact</a></li>
+<div class="container">
+    <!-- ====== HEADER / GNB ====== -->
+    <header class="hd">
+        <nav id="gnb">
+            <ul>
+                <li>
+                    <div class="profile">
+                        <!-- 프로필 이미지 파일명 맞춰서 사용 -->
+                        <img src="profile.jpg" alt="Profile">
+                    </div>
+                </li>
+                <li><a href="#page1">Intro</a></li>
+                <li><a href="#page2">Skill</a></li>
+                <li><a href="#page3">Portfolio</a></li>
+                <li><a href="#page4">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ====== MAIN CONTENT ====== -->
+    <main class="content">
+        <!-- 히어로 비디오 -->
+        <figure class="vs">
+            <!-- 필요 없으면 h2는 비워둔 상태 유지 -->
+            <h2 class="page_title" style="display:none;">Visual Reel</h2>
+            <!-- vs.mp4 파일 이름/위치 맞춰서 사용 -->
+            <video src="vs.mp4" autoplay muted loop playsinline></video>
+            <div class="vs-title">
+                <h1>OBSCURA PROJECT</h1>
+                <p>Cinematic Interactive Mystery / Psychological · Investigative Adventure</p>
+            </div>
+        </figure>
+
+        <!-- PAGE 1 : INTRO -->
+        <section class="page" id="page1">
+            <h2 class="page_title">Intro</h2>
+
+            <div class="intro_wrap">
+                <div class="intro_img">
+                    <!-- 캐리커쳐 / 마리 이미지 등 -->
+                    <img src="cari.jpg" alt="Caricature / Portrait">
+                </div>
+                <div class="intro_text">
+                    <h4>PORTFOLIO</h4>
+                    <h3>Game Designer · Narrative & System</h3>
+                    <p>
+                        게임을 가장 사랑하는 플레이어이자,  
+                        혼자서도 끝까지 책임지는 1인 개발자를 지향하고 있습니다.
+                    </p>
+                    <p>
+                        시네마틱 연출, 심리·추리 기반 내러티브,  
+                        시스템/밸런스·UX까지 유기적으로 연결하는 설계에 관심이 많습니다.
+                    </p>
+                    <p>
+                        현재 개인 프로젝트 <strong>《OBSCURA》</strong>를 통해  
+                        세계관·캐릭터·연출·시스템을 모두 직접 설계·제작하고 있습니다.
+                    </p>
+                </div>
+            </div>
+
+            <div class="intro_wrap">
+                <ul class="intro_list">
+                    <li><strong>이름</strong><span>: 진 (Jin) · Game Designer</span></li>
+                    <li><strong>전공/경력</strong><span>: 디자인·멀티미디어 / 입시학원·프리랜서 디자이너</span></li>
+                    <li><strong>관심 장르</strong><span>: 시네마틱, RPG, 심리·추리, 스토리 드리븐 게임</span></li>
+                    <li><strong>강점</strong><span>: 세계관·캐릭터 기획, 문서화, 연출 디렉션, 2D/영상 편집</span></li>
+                    <li><strong>목표</strong><span>: 《OBSCURA》→《CUNABULA》로 이어지는 세계관 기반 1인 개발</span></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- PAGE 2 : SKILL & ABILITY -->
+        <section class="page" id="page2">
+            <h2 class="page_title">Skill & Ability</h2>
+
+            <ul class="skill_list">
+                <li class="skill_item" style="--score:90%;">
+                    <span class="skill_name">Game / System Design</span>
+                    <div class="meter"><span></span></div>
+                    <p class="skill_text">
+                        세계관·캐릭터·플로우·코어 루프·엔딩 분기 설계 경험.  
+                        감정·심리 시스템과 게임플레이를 연결하는 구조에 강점이 있습니다.
+                    </p>
+                    <p class="skill_score">기획 문서·시스템 설계·엔딩 구조 설계</p>
+                </li>
+
+                <li class="skill_item" style="--score:85%;">
+                    <span class="skill_name">Level / Scenario</span>
+                    <div class="meter"><span></span></div>
+                    <p class="skill_text">
+                        지역·시퀀스·연출 타이밍을 고려한 레벨/씬 구성.  
+                        플레이 흐름과 감정선이 함께 움직이도록 플롯을 조율합니다.
+                    </p>
+                    <p class="skill_score">씬 구성·카메라 연출·페이싱 디자인</p>
+                </li>
+
+                <li class="skill_item" style="--score:80%;">
+                    <span class="skill_name">Unity · Tooling</span>
+                    <div class="meter"><span></span></div>
+                    <p class="skill_text">
+                        Unity 기반 타이틀·레디·인트로 씬 구현 경험.  
+                        VFX, 타임라인, 영상·이미지 연동, 기본 C# 스크립트 활용 가능.
+                    </p>
+                    <p class="skill_score">씬 구성·기본 C#·VFX·UI 연출</p>
+                </li>
+
+                <li class="skill_item" style="--score:95%;">
+                    <span class="skill_name">Documentation</span>
+                    <div class="meter"><span></span></div>
+                    <p class="skill_text">
+                        미로·PDF·캔바 기반의 기획서·캐릭터 시트·시스템 문서 정리.  
+                        협업자도 한 번에 이해할 수 있는 구조와 시각화를 지향합니다.
+                    </p>
+                    <p class="skill_score">기획서·캐릭터 시트·UI/UX 와이어</p>
+                </li>
+            </ul>
+        </section>
+
+        <!-- PAGE 3 : PORTFOLIO -->
+        <section class="page" id="page3">
+        <h2 class="page_title">포트폴리오</h2>
+        <p class="page_subtitle">
+          현재 진행 중이거나 계획 중인 프로젝트들을 정리한 영역입니다.<br>
+          썸네일 이미지는 <strong>portfolio1~4.jpg</strong> 파일로 교체하면서,
+          추후 실제 인게임·기획 화면으로 업데이트할 예정입니다.
+        </p>
+
+        <ul class="pf_list">
+          <li class="pf_item">
+            <a href="#">
+              <div class="pf_thumb">
+                <img src="portfolio1.jpg" alt="프로젝트 1 썸네일">
+                <span class="pf_badge">작업 예정</span>
+              </div>
+              <h3>OBSCURA – 인터랙티브 미스터리</h3>
+              <p>
+                냉전기 심리·추리 요소를 담은 인터랙티브 어드벤처.<br>
+                1인 개발 메인 포트폴리오 프로젝트입니다.
+              </p>
+            </a>
+          </li>
+
+          <li class="pf_item">
+            <a href="#">
+              <div class="pf_thumb">
+                <img src="portfolio2.jpg" alt="프로젝트 2 썸네일">
+                <span class="pf_badge">작업 예정</span>
+              </div>
+              <h3>스페쿨라(가칭) – 루미나스 크로니클</h3>
+              <p>
+                2064년, 발현체와 혼돈의 세계를 추적하는 수사관 시점의 서사형 프로젝트.<br>
+                루미나스·테네브라 세계관의 크로니클 파트.
+              </p>
+            </a>
+          </li>
+
+          <li class="pf_item">
+            <a href="#">
+              <div class="pf_thumb">
+                <img src="portfolio3.jpg" alt="프로젝트 3 썸네일">
+                <span class="pf_badge">작업 예정</span>
+              </div>
+              <h3>CUNABULA – 포스트 아포칼립스 RPG</h3>
+              <p>
+                핵전쟁 이후 미국 동남부를 배경으로 한 3D 턴제 액션 RPG 기획안.<br>
+                감정·기억 시스템이 결합된 장기 프로젝트.
+              </p>
+            </a>
+          </li>
+
+          <li class="pf_item">
+            <a href="#">
+              <div class="pf_thumb">
+                <img src="portfolio4.jpg" alt="프로젝트 4 썸네일">
+                <span class="pf_badge">작업 예정</span>
+              </div>
+              <h3>실험·프로토타입 작업들</h3>
+              <p>
+                FX 실험, 단편 시퀀스, 미완성 프로토타입 등을 정리하는 슬롯입니다.<br>
+                학원 과제나 소규모 테스트 프로젝트를 모아둘 예정입니다.
+              </p>
+            </a>
+          </li>
         </ul>
-      </nav>
-    </div>
-  </header>
+      </section>
 
-  <main class="wrapper">
-    <!-- Hero -->
-    <section class="hero" id="top">
-      <div>
-        <p class="hero-sub">게임 기획 · 내러티브 디자인 · 1인 개발 지망생</p>
-        <h1 class="hero-title">Obscura에서 CUNABULA까지,<br />이야기와 시스템을 잇는 기획자</h1>
 
-        <div class="hero-tags">
-          <span class="tag">Game Design</span>
-          <span class="tag">Narrative</span>
-          <span class="tag">Unity · Python · HTML/CSS</span>
-        </div>
-
-        <p class="hero-text">
-          콘솔·PC 시절부터 <strong>RPG 덕후</strong>로 자라,
-          지금은 심리·추리·첩보 요소가 섞인
-          <strong>시네마틱 인터랙티브 게임</strong>을 만들고 있어.
-          현재는 학원 프로젝트 <strong>《OBSCURA》</strong>를 통해
-          상용 수준의 기획서와 Unity 프로토타입을 준비 중이야.
-        </p>
-        <p class="hero-meta">
-          2025년 6월 ~ 12월 MBC 컴퓨터 아카데미<br />
-          「게임기획자를 위한 AI와 유니티 활용 과정」 수강 중
-        </p>
-      </div>
-
-      <aside class="profile-card">
-        <div class="profile-avatar-wrap">
-          <!-- 프로필 사진 -->
-          <img src="profile.jpg" alt="Jin profile" class="profile-avatar" />
-          <!-- 캐리커처 / 일러스트 (호버 시 전환) -->
-          <img src="profile-illustration.png" alt="Jin illustration" class="profile-illust" />
-          <div class="status-dot"></div>
-        </div>
-        <div class="profile-main">
-          <h2>
-            Jin (진씨)
-            <span>Game Designer · Solo Dev wannabe</span>
-          </h2>
-          <p>
-            TRPG 마스터 출신의 디자이너.  
-            감정선이 살아 있는 세계관과 시스템 구조화를 가장 좋아해.
-          </p>
-          <div class="profile-meta">
-            <span>Unity 6 · VS Code</span>
-            <span>Python · HTML/CSS</span>
-            <span>AI 보조 워크플로우 구성</span>
-          </div>
-        </div>
-      </aside>
-    </section>
-
-    <!-- About -->
-    <section id="about">
-      <h2 class="section-title">About</h2>
-      <p class="section-sub">
-        디자인 전공, 학원 디자이너·프리랜서 그래픽 경험, 그리고 RPG 덕력으로 쌓인
-        이야기를 이제 실제 게임으로 옮기는 중이야.
-      </p>
-
-      <div class="about-grid">
-        <div>
-          <p class="about-block">
-            <strong>멀티미디어 디자인 전공</strong>과 입시학원·프리랜서 시절
-            <strong>그래픽 · 영상 편집 · 일러스트</strong>를 두루 경험했어.
-            그래서 기획 단계에서부터 UI/UX, 연출, 마케팅 이미지까지
-            전체 그림을 그리면서 작업하는 스타일이야.
-          </p>
-          <p class="about-block">
-            어릴 때부터 게임이 최고의 취미였고, 특히
-            <strong>스토리·캐릭터가 강한 RPG</strong>에 깊이 빠져 있었어.
-            20대에는 <strong>TRPG 마스터</strong>를 오래 하면서
-            플레이어에게 기억에 남는 세션을 만드는 법을 체득했지.
-          </p>
-          <p class="about-block">
-            지금은 국비 과정을 통해 <strong>기획 → Unity 개발 → 포트폴리오</strong>까지
-            1인 개발 흐름을 완성하는 게 목표야.  
-            중장기적으로는 <strong>《CUNABULA》를 실제 상용 타이틀</strong>로 출시하는 걸 꿈꾸고 있어.
-          </p>
-        </div>
-
-        <div>
-          <ul class="timeline">
-            <li>멀티미디어 디자인 전공 · 그래픽/영상 프리랜서</li>
-            <li>TRPG 마스터 활동, 장기 캠페인 다수 운영</li>
-            <li>2025 · (산대특) 게임기획자를 위한 AI·유니티 활용 과정 수강</li>
-            <li>2025 · 《OBSCURA》 미스터리 어드벤처 기획 & 프로토타입 제작</li>
-            <li>향후 · AI+Unity 부트캠프 수료 후 1인 개발 프로젝트 본격화</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- Skills -->
-    <section id="skills">
-      <h2 class="section-title">Skills</h2>
-      <p class="section-sub">
-        “아이디어만 있는 기획자”가 아니라, 실제로 <strong>손으로 구현할 수 있는 기획자</strong>를 지향해.
-        시스템 구조화, 서사 설계, 그리고 프로토타이핑까지 직접 다뤄.
-      </p>
-
-      <div class="skill-grid">
-        <article class="skill-card">
-          <h3>Game Design</h3>
-          <p class="skill-main">시스템 & 레벨 기획</p>
-          <div class="skill-tags">
-            <span class="skill-pill">코어 루프 설계</span>
-            <span class="skill-pill">전투/심리 시스템</span>
-            <span class="skill-pill">밸런싱 기초</span>
-          </div>
-        </article>
-
-        <article class="skill-card">
-          <h3>Narrative</h3>
-          <p class="skill-main">세계관 & 감정선</p>
-          <div class="skill-tags">
-            <span class="skill-pill">장기 캠페인 구조</span>
-            <span class="skill-pill">멀티 엔딩</span>
-            <span class="skill-pill">TRPG식 연출</span>
-          </div>
-        </article>
-
-        <article class="skill-card">
-          <h3>Tools</h3>
-          <p class="skill-main">Unity · VS Code · GitHub</p>
-          <div class="skill-tags">
-            <span class="skill-pill">Unity 6</span>
-            <span class="skill-pill">C# 스크립트 연동 기초</span>
-            <span class="skill-pill">Git / GitHub Pages</span>
-          </div>
-        </article>
-
-        <article class="skill-card">
-          <h3>Tech & Web</h3>
-          <p class="skill-main">Python · HTML/CSS</p>
-          <div class="skill-tags">
-            <span class="skill-pill">파이썬 기초 · 컬렉션</span>
-            <span class="skill-pill">간단한 툴 제작</span>
-            <span class="skill-pill">반응형 웹 포트폴리오</span>
-          </div>
-        </article>
-
-        <article class="skill-card">
-          <h3>Visual</h3>
-          <p class="skill-main">2D 아트 & UI 감각</p>
-          <div class="skill-tags">
-            <span class="skill-pill">그래픽 디자인</span>
-            <span class="skill-pill">레이아웃 & 타이포</span>
-            <span class="skill-pill">컷씬 연출 구상</span>
-          </div>
-        </article>
-
-        <article class="skill-card">
-          <h3>AI Workflow</h3>
-          <p class="skill-main">생성형 AI 활용</p>
-          <div class="skill-tags">
-            <span class="skill-pill">프롬프트 설계</span>
-            <span class="skill-pill">콘셉트 아트 · 영상</span>
-            <span class="skill-pill">문서 정리 · 요약</span>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- Portfolio -->
-    <section id="portfolio">
-      <h2 class="section-title">Portfolio</h2>
-      <p class="section-sub">
-        아직은 프로토 단계지만, 명확한 <strong>기획 의도와 플레이 경험</strong>을 가지고
-        하나씩 형태를 만들어 가는 중이야.
-      </p>
-
-      <div class="portfolio-grid">
-        <article class="project-card">
-          <div class="project-thumb"></div>
-          <div class="project-body">
-            <h3>OBSCURA (working title)</h3>
-            <p class="project-meta">Cold-war Mystery · 1인 개발 · 2025</p>
-            <p>
-              1991년 냉전 종식 직전, 프라하에서 벌어지는 전화부스 심문극.
-              루미나스 인자를 가진 요원 ‘마리’를 중심으로
-              심리전과 추리, 선택지가 엮이는 인터랙티브 어드벤처.
-            </p>
-            <div class="project-tags">
-              <span class="project-tag">기획/시나리오</span>
-              <span class="project-tag">Unity 프로토</span>
-              <span class="project-tag">타이틀/타이포 디자인</span>
+        <!-- PAGE 4 : CONTACT -->
+        <section class="page" id="page4">
+            <h2 class="page_title">Contact</h2>
+            <div class="page_inner">
+                <p>
+                    게임 기획 / 내러티브 / 시스템 / 1인 개발 관련해서  
+                    언제든지 대화하고 협업 제안을 받고 싶습니다.
+                </p>
+                <p style="margin-top:10px;">
+                    · 이메일: <a href="mailto:yuilen13@gmail.com">yuilen13@gmail.com</a><br>
+                    · GitHub: <a href="https://github.com/sylrahdev" target="_blank">github.com/sylrahdev</a>
+                </p>
             </div>
-          </div>
-        </article>
+        </section>
+    </main>
 
-        <article class="project-card">
-          <div class="project-thumb"></div>
-          <div class="project-body">
-            <h3>CUNABULA</h3>
-            <p class="project-meta">3D 턴제 액션 RPG · 개인 IP</p>
-            <p>
-              핵전쟁 이후의 황폐한 세계에서,
-              임신한 전설의 요원 사라가 폭탄과 아이를 안고 탈출하는 이야기.
-              감정·기억·전투 시스템이 깊게 얽힌 장기 프로젝트.
-            </p>
-            <div class="project-tags">
-              <span class="project-tag">월드빌딩</span>
-              <span class="project-tag">전투/감정 시스템</span>
-              <span class="project-tag">멀티 엔딩 설계</span>
-            </div>
-          </div>
-        </article>
-
-        <article class="project-card">
-          <div class="project-thumb"></div>
-          <div class="project-body">
-            <h3>기획 실습 & 기타</h3>
-            <p class="project-meta">과제 · 프로토타입 모음</p>
-            <p>
-              Unity 미니 프로젝트, UI 모형, 파이썬·웹 포트폴리오 실습 등
-              학습 과정에서 만든 작은 결과물들을 정리해 둘 예정이야.
-            </p>
-            <div class="project-tags">
-              <span class="project-tag">프로토 타입</span>
-              <span class="project-tag">UI 실험</span>
-              <span class="project-tag">툴 연습</span>
-            </div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- Contact -->
-    <section id="contact">
-      <h2 class="section-title">Contact</h2>
-      <p class="section-sub">
-        협업 제안, 피드백, 혹은 그냥 게임 이야기라도 좋아.
-        아래 채널로 언제든 편하게 연락해 줘.
-      </p>
-
-      <div class="contact-grid">
-        <div class="contact-main">
-          <p>
-            현재는 <strong>기획 직무 취업</strong>과
-            <strong>1인 개발 역량 구축</strong>을 동시에 준비 중이야.
-            내러티브가 강한 인디 타이틀, 싱글플레이 RPG, 스토리 드리븐 프로젝트에
-            특히 관심이 많아.
-          </p>
-
-          <ul class="contact-list">
-            <li><span>이메일</span>jin.portfolio@example.com</li>
-            <li><span>GitHub</span>github.com/Sylrah</li>
-            <li><span>Portfolio</span>sylrahdev.github.io</li>
-          </ul>
-
-          <div class="contact-actions">
-            <a href="mailto:jin.portfolio@example.com" class="btn btn-primary">메일 보내기</a>
-            <a href="https://github.com/Sylrah" target="_blank" class="btn">GitHub 보기</a>
-            <a href="#top" class="btn">맨 위로</a>
-          </div>
-        </div>
-
-        <div>
-          <p class="contact-main">
-            HTML/CSS 포트폴리오, Unity 프로젝트, PDF 기획서는
-            순차적으로 정리해서 추가할 예정이야.  
-            페이지가 조금씩 변한다면, 그건 새로운 실험이 진행 중이라는 뜻이야 흥.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <footer>
-      © 2025 Jin · Game Design & Solo Dev Journey
+    <footer class="ft" style="padding:18px 20px 26px; text-align:center; font-size:12px; color:#6b7280;">
+        © 2025 SYLRAH · Game Design & Solo Development Portfolio
     </footer>
-  </main>
+</div>
+
+<!-- ====== 스킬 바 애니메이션 스크립트 ====== -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const skillItems = document.querySelectorAll('.skill_item');
+
+    function runSkillAnimation() {
+        skillItems.forEach((el, idx) => {
+            el.classList.remove('active');
+            const meterSpan = el.querySelector('.meter span');
+            if (meterSpan) meterSpan.style.width = '0%';
+
+            setTimeout(() => {
+                el.classList.add('active');
+                const score = getComputedStyle(el).getPropertyValue('--score').trim() || '80%';
+                if (meterSpan) meterSpan.style.width = score;
+            }, idx * 300);
+        });
+    }
+
+    runSkillAnimation();
+    setInterval(runSkillAnimation, 5000);
+});
+</script>
 </body>
 </html>
