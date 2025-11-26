@@ -30,27 +30,20 @@
     #gnb li:hover a { background-color:rgba(24, 26, 28, 0.75); color:#fff; } 
     #gnb .profile { display:block; height: 90px;  text-align: center; }
     #gnb .profile img { display:block; width: 90px; height:90px; overflow:hidden; 
-    border-radius:50px; margin: 0 auto; }
+    border-radius:50px; margin: 0 auto; transform: rotate(0deg); }
+    #gnb .profile:hover img { transition-duration:2s; transform: rotate(360deg); }
+
+    .vs { display:block; width: 100vw; }
+    .vs video { display:block; width: 100vw; }
     </style>
 </head>
 <body>
 <div class="container">
     <header class="hd" style="border-bottom:1px solid #333">
-        <div class="comment">
-            <h1>CSS 선택자 및 적용 방법</h1>
-            <p>CSS 선택자는 해당 요소(태그)에서 서식(Style)을 부여할 대상을 지정하는 것을 CSS 선택이라고 하고, 
-                이 때 사용되는 키워드를 CSS 선택자라고 함</p>
-            <p>인라인 스타일 방식은 해당 요소에 style="border-bottom:5px solid #333"와 같이 직접 
-                style 속성으로 서식을 지정하는 방법</p>
-            <p>내부 스타일은 현재 문서의 style 태그 안에 스타일 지정하는 방식으로 현재 문서에만 작성한 스타일을 
-                적용하고자 할 때 사용되는 방식</p>    
-            <p>외부 스타일은 공통되는 스타일을 별도의 css 파일로 작성한 후 link 태그로 스타일 내용을 불러와
-                연결하는 방식</p>        
-        </div>
         <nav id="gnb">
             <ul>
                 <li>
-                    <div class="profile"><img src="profile_01.jpg" alt="프사"></div>
+                    <div class="profile"><img src="profile.jpg" alt="프사"></div>
                 </li>
                 <li><a href="#page1">Intro</a></li>
                 <li><a href="#page2">Skill</a></li>
@@ -66,7 +59,16 @@
         </figure>
         <section class="page" id="page1">
             <h2 class="page_title">Intro</h2>
-
+            <div class="intro_wrap">
+                <div class="intro_wrap">
+                    <img src="" alt="">
+            </div>
+            <div class="intro_text"
+            <h3>Game Designer Portfolio</h3>
+            <p>창의적인 게임 기획과 유저 경험을 중요하게 생각하는
+            게임 기획자 김형진입니다.<br><br>
+            스토리텔링, 시스템 기획, 밸런스 조정 경험을 바탕으로
+            더 재미있는 게임을 만들고자 합니다.</p>
         </section>
         <section class="page" id="page2">
             <h2 class="page_title">Skill&Ability</h2>
