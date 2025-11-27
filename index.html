@@ -60,8 +60,40 @@ body {
     filter:saturate(0.9) contrast(1.03) brightness(0.93); z-index:1;
 }
 .fullscreen-hero .vs-title {
-    position:absolute; left:0; right:0; bottom:7vh; text-align:center;
-    z-index:2; color:#e5e7eb; width:100vw; pointer-events:none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 9vh;   /* 👈 맨 위로! */
+    text-align: center;
+    z-index: 30;
+    width: 100vw;
+    color: #fff;
+    font-weight: 900;
+    pointer-events: none;
+    text-shadow:
+        0 6px 32px #060a2a,
+        0 2px 18px #25273f,
+        0 0 0.5em #000;
+    background: linear-gradient(to bottom, rgba(15,23,42,0.94) 85%, rgba(44,44,56,0.13) 100%);
+    padding: 16px 0 30px 0;
+    border-radius:16px;
+    font-size:1.1rem;
+}
+.fullscreen-hero .vs-title h2 {
+    font-size:2.9em;
+    letter-spacing:0.15em;
+    font-weight:900;
+    margin-bottom:0.38em;
+    color:#eafcff;
+    text-shadow:0 6px 32px #060a2a,0 2px 12px #375ac8;
+}
+.fullscreen-hero .vs-title .vs-genre {
+    font-size:1.18em;
+    color:#e6f2ff;
+    font-weight:700;
+    letter-spacing:0.02em;
+    opacity:.98;
+    text-shadow:0 3px 10px #141c36,0 1px 8px #22273f;
 }
 .fullscreen-hero .vs-title h2 {
     font-size:2.2em; letter-spacing:0.15em; font-weight:700;
