@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Kim Hyung Jin – Game Design Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 시네마틱 느낌용 폰트 (선택) -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Pretendard:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-main: #05070a;
+      --bg-panel: #0b0f16;
+      --accent: #f5c96b;
+      --accent-soft: rgba(245, 201, 107, 0.15);
+      --text-main: #f5f5f5;
+      --text-sub: #a6acb9;
+      --danger: #ff5b5b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #151821 0, #05070a 55%, #020309 100%);
+      color: var(--text-main);
+      font-family: "Pretendard", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* ====== HERO WRAPPER ====== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px 64px;
+    }
+
+    .hero_inner {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero_header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      gap: 12px;
+    }
+
+    .hero_brand {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .hero_brand-title {
+      font-family: "Playfair Display", "Times New Roman", serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .hero_brand-sub {
+      font-size: 0.9rem;
+      color: var(--text-sub);
+    }
+
+    .hero_tagline {
+      margin: 0 0 0fdauto;
+      font-size: 0.9rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      opacity: 0.8;
+    }
+
+    /* ====== VIDEO CAROUSEL ====== */
+
+    .hero_video-wrapper {
+      position: relative;
+      width: 100%;
+      margin: 0 auto;
+      border-radius: 16px;
+      overflow: hidden;
+      background: radial-gradient(circle at top, #1a1f2a 0, #05070a 50%, #000 100%);
+      box-shadow:
+        0 14px 40px rgba(0, 0, 0, 0.85),
+        0 0 0 1px rgba(245, 201, 107, 0.12);
+    }
+
+    /* 21:9 비율 유지 */
+    .hero_video-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 21 / 9;
+      /* 구형 브라우저용 fallback */
+    }
+    .hero_video-frame::before {
+      content: "";
+      display: block;
+      padding-top: calc(100% * 9 / 21);
+    }
+
+    .hero_video-layer {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: stretch;
+      justify-content: stretch;
+    }
+
+    .hero_slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+      pointer-events: none;
+    }
+
+    .hero_slide.is-active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .hero_slide video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: contrast(1.05) saturate(1.02);
+    }
+
+    /* Aurella 골드 오버레이 (15% 정도) */
+    .hero_overlay-aurella {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center,
+        rgba(245, 201, 107, 0.15) 0%,
+        rgba(245, 201, 107, 0.08) 40%,
+        transparent 100%);
+      mix-blend-mode: soft-light;
+      pointer-events: none;
+    }
+
+    /* 좌측 하단 텍스트 박스 */
+    .hero_caption {
+      position: absolute;
+      left: 32px;
+      bottom: 28px;
+      max-width: 420px;
+      padding: 16px 18px 14px;
+      background: linear-gradient(
+        to top right,
+        rgba(5, 7, 12, 0.7),
+        rgba(5, 7, 12, 0.5)
+      );
+      border-radius: 10px;
+      border: 1px solid rgba(245, 201, 107, 0.25);
+      box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.65),
+        0 0 0 1px rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+    }
+
+    .hero_caption-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      color: rgba(245, 201, 107, 0.85);
+      margin-bottom: 4px;
+    }
+
+    .hero_caption-title {
+      font-family: "Playfair Display", "Times New Roman", serif;
+      font-size: 1.15rem;
+      margin-bottom: 4px;
+    }
+
+    .hero_caption-meta {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(166, 172, 185, 0.9);
+      margin-bottom: 6px;
+    }
+
+    .hero_caption-text {
+      font-size: 0.82rem;
+      color: var(--text-sub);
+    }
+
+    /* 상단 오른쪽 작은 프로젝트 인디케이터 (옵션) */
+    .hero_project-chip {
+      position: absolute;
+      top: 18px;
+      right: 24px;
+      padding: 6px 10px;
+      font-size: 0.72rem;
+      border-radius: 999px;
+      background: rgba(5, 7, 12, 0.78);
+      border: 1px solid rgba(245, 201, 107, 0.25);
+      color: rgba(245, 201, 107, 0.85);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero_project-chip-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(245, 201, 107, 0.85);
+      box-shadow: 0 0 10px rgba(245, 201, 107, 0.85);
+    }
+
+    /* 하단 중앙 점 네비게이션 */
+    .hero_dots {
+      position: absolute;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+    }
+
+    .hero_dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(140, 149, 165, 0.4);
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .hero_dot.is-active {
+      width: 22px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(245, 201, 107, 0.9);
+    }
+
+    /* 좌우 화살표 (옵션) */
+    .hero_nav {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      pointer-events: none;
+    }
+
+    .hero_nav-btn {
+      pointer-events: auto;
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      border: 1px solid rgba(245, 201, 107, 0.3);
+      background: radial-gradient(circle at top, rgba(5, 7, 12, 0.95), rgba(5, 7, 12, 0.75));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      margin: 0 14px;
+      color: rgba(245, 201, 107, 0.85);
+      font-size: 1.2rem;
+      transition: all 0.18s ease;
+    }
+
+    .hero_nav-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 14px rgba(245, 201, 107, 0.45);
+      background: radial-gradient(circle at top, rgba(10, 12, 18, 1), rgba(5, 7, 12, 0.95));
+    }
+
+    /* ====== RESPONSIVE ====== */
+
+    @media (max-width: 960px) {
+      .hero_caption {
+        left: 20px;
+        right: 20px;
+        bottom: 20px;
+        max-width: none;
+      }
+
+      .hero_header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+
+      .hero_tagline {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        padding: 20px 10px 40px;
+      }
+      .hero_caption-title {
+        font-size: 1rem;
+      }
+      .hero_caption-text {
+        font-size: 0.78rem;
+      }
+      .hero_nav-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+        margin: 0 8px;
+      }
+      .hero_project-chip {
+        display: none;
+      }
+    }
+
+    /* 공통 섹션 레이아웃 */
+    .section {
+    padding: 80px 20px;
+    }
+
+    .section-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    }
+
+    /* 인트로 섹션: 한 화면 안에서 중앙 배치 */
+    .section_intro {
+        min-height: calc(100vh - 80px); /* 헤더 높이 대략 80px 기준, 필요하면 숫자 조정 */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;   /* 세로 가운데 정렬 */
+        align-items: center;       /* 가로 가운데 정렬 */
+        padding: 3.5rem 2rem 4rem; /* 여백은 살짝만 */
+        background: rgba(0, 0, 0, 0.45);
+    }
+
+    .section-hero {
+        min-height: 100vh;      /* 한 화면 꽉 채우기 */
+        display: flex;
+        flex-direction: column; /* 위에: 영상 / 아래: 텍스트 */
+    }
+
+    /* 인트로 텍스트 블록 */
+    .hero_intro {
+        flex: 1 0 auto;                 /* 남은 공간을 적당히 차지 */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;        /* ← 텍스트를 남은 영역의 세로 가운데 정렬 */
+        padding: 4rem 2rem 5rem;        /* 위/양옆/아래 여백 (원하면 숫자 조절) */
+        text-align: center;
+        padding-top: 3.5rem;      /* 이건 그대로 두거나 조금만 조절 */
+        padding-bottom: 3rem;     /* 네가 잡아 둔 값 유지해서 넣어도 돼 */
+        position: relative;
+        top: 20px;
+          }
+
+    /* 여기서 라인을 따로 그려줌 */
+    .hero_intro::before {
+        content: "";
+        display: block;
+        width: 800px;   /* 라인 길이 */
+        height: 1px;
+        margin: 0rem auto 0rem;  /* 위쪽은 0, 아래로 2.2rem 떨어뜨리기 */
+        padding-top: 0rem;
+        background: linear-gradient(
+          to right,
+          rgba(255, 215, 0, 0.0),
+          rgba(255, 215, 0, 0.65),
+          rgba(255, 215, 0, 0.0)
+        );
+        opacity: 0.85;
+        }
+
+    /* ABOUT */
+    .section-about-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 280px) minmax(0, 1fr);
+    gap: 48px;
+    align-items: center;
+    }
+
+    .section-kicker {
+    font-size: 13px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(245, 210, 122, 0.9);
+    margin-bottom: 8px;
+    }
+
+    .section-title {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    }
+
+    .section-text {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #e5e5ea;
+    margin-bottom: 8px;
+    }
+
+    .section-text-sub {
+    color: #b4b4c5;
+    }
+
+    .about-avatar {
+    width: 260px;
+    height: 260px;
+    border-radius: 999px;
+    overflow: hidden;
+    border: 1px solid rgba(245, 210, 122, 0.28);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.8);
+    }
+
+    .about-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    }
+
+    .about-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 16px 0 20px;
+    font-size: 13px;
+    color: #a4a4bd;
+    }
+
+    .about-meta span::before {
+    content: "• ";
+    color: rgba(245, 210, 122, 0.75);
+    }
+
+    .about-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 18px;
+    }
+
+    .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 18px;
+    border-radius: 999px;
+    font-size: 14px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.18s ease-out;
+    }
+
+    .btn-primary {
+    background: linear-gradient(135deg, #f5d27a, #f0b85e);
+    color: #18151f;
+    font-weight: 600;
+    }
+
+    .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(245, 210, 122, 0.45);
+    }
+
+    .btn-ghost {
+    border-color: rgba(245, 210, 122, 0.45);
+    color: #f5d27a;
+    background: transparent;
+    }
+
+    .btn-ghost:hover {
+    background: rgba(245, 210, 122, 0.08);
+    }
+
+    /* ABOUT social */
+    .about-social {
+    margin-top: 4px;
+    }
+
+    .about-social-label {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #777792;
+    margin-bottom: 6px;
+    }
+
+    .about-social-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 14px;
+    font-size: 13px;
+    }
+
+    .about-social-links a {
+    color: #c5c5da;
+    text-decoration: none;
+    position: relative;
+    }
+
+    .about-social-links a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0;
+    height: 1px;
+    background: rgba(245, 210, 122, 0.9);
+    transition: width 0.18s ease-out;
+    }
+
+    .about-social-links a:hover::after {
+    width: 100%;
+    }
+
+    /* 반응형 */
+    @media (max-width: 768px) {
+    .section-about-inner {
+        grid-template-columns: minmax(0, 1fr);
+        text-align: center;
+    }
+
+    .about-avatar {
+        margin: 0 auto 20px;
+    }
+
+    .about-meta {
+        justify-content: center;
+    }
+
+    .about-actions {
+        justify-content: center;
+    }
+
+    .about-social-links {
+        justify-content: center;
+    }
+    }
+
+    .section-portfolio {
+        border-top: 1px solid rgba(245, 210, 122, 0.18);
+    }
+
+    .pf-grid {
+    list-style: none;
+    padding: 0;
+    margin: 32px 0 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 24px;
+    }
+
+    .pf-item a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    }
+
+    .pf-thumb {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    background: radial-gradient(circle at top, #30263a, #14111a);
+    aspect-ratio: 1 / 1;
+    margin-bottom: 12px;
+    border: 1px solid rgba(245, 210, 122, 0.14);
+    }
+
+    .pf-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0.9;
+    transition: transform 0.25s ease-out, opacity 0.2s ease-out;
+    }
+
+    .pf-badge {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: rgba(5, 5, 9, 0.78);
+    border: 1px solid rgba(245, 210, 122, 0.6);
+    color: #f5d27a;
+    }
+
+    .pf-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    }
+
+    .pf-text {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #b4b4c5;
+    }
+
+    .pf-item:hover .pf-thumb img {
+    transform: scale(1.03);
+    opacity: 1;
+    }
+
+    /* 모바일에서 1열 */
+    @media (max-width: 768px) {
+    .pf-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    }
+
+    /* 상단 고정 헤더 높이 고려 */
+    main {
+      padding-top: 80px; /* 헤더 높이만큼 */
+    }
+
+    /* 각 섹션을 1페이지처럼 */
+    .page_section {
+      min-height: calc(100vh - 80px); /* 헤더 빼고 거의 한 화면 */
+      padding: 60px 0 80px;
+      scroll-margin-top: 90px; /* 메뉴 클릭할 때 헤더에 안가리도록 */
+    }
+
+    /* 부드러운 스크롤 */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    .site_header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      z-index: 1000;
+
+      background: linear-gradient(
+          to bottom,
+          rgba(3, 5, 18, 0.95),
+          rgba(3, 5, 18, 0.75)
+      );
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .header_inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      height: 100%;
+      padding: 0 24px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-family: "Cormorant Garamond", serif; /* 없으면 기본 세리프 */
+      font-size: 20px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #fdf5da;
+    }
+
+    .logo_sub {
+      font-family: "Pretendard", system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      font-size: 13px;
+      opacity: 0.65;
+    }
+
+    .nav {
+      display: flex;
+      gap: 8px;
+    }
+
+    .nav_link {
+      position: relative;
+      padding: 6px 14px 10px;
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(240, 242, 252, 0.55);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s ease;
+    }
+
+    .nav_link::after {
+      content: "";
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      bottom: 4px;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #ffd37a, #ff8aa0);
+      transform: scaleX(0);
+      transform-origin: center;
+      opacity: 0;
+      transition: transform 0.22s ease, opacity 0.22s ease;
+    }
+
+    .nav_link:hover {
+      color: rgba(255, 255, 255, 0.95);
+    }
+
+    .nav_link:hover::after,
+    .nav_link.active::after {
+      transform: scaleX(1);
+      opacity: 1;
+    }
+
+    .nav_link.active {
+      color: #ffffff;
+    }
+
+    /* 모바일일 때 글자 크기 살짝 줄이기 */
+    @media (max-width: 768px) {
+      .header_inner {
+        padding: 0 16px;
+      }
+      .logo {
+        font-size: 18px;
+      }
+      .nav_link {
+        padding: 4px 10px 8px;
+        font-size: 12px;
+      }
+    }
+
+    .hero_intro {
+      text-align: center;
+      max-width: 860px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-top: 4rem;     /* 위로 여백 */
+      padding-bottom: 4rem;  /* 아래 여백 */
+      margin-top: 1rem;      /* 영상과의 간격 */
+      margin-bottom: 2rem;   /* ABOUT 섹션과의 간격 */
+    }
+
+    .hero_tagline {
+      font-size: 0.9rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      opacity: 0.8;
+      margin-top: 0.25rem;
+    }
+
+    .hero_text {
+      font-size: 0.98rem;       /* 살짝만 줄이기 */
+      line-height: 1.7;         /* 줄 간격 넉넉하게 */
+      margin-top: 0.75rem;
+    }
+
+    .hero_keywords {
+      margin-top: 1rem;
+      list-style: none;
+      padding: 0;
+    }
+
+    .hero_keywords li {
+      margin: 0.15rem 0;
+      letter-spacing: 0.02em;
+    }
+
+    /* 인트로 섹션 레이아웃 */
+    .section-hero {
+      min-height: 68vh;
+      padding-top: 55px;
+      padding-bottom: 55px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* 인트로 텍스트 영역 정렬 */
+    .section-hero .hero_intro {
+      max-width: 960px;
+      margin: 0 auto;
+      margin-bottom: -30px;
+      padding: 4.5rem 3rem 1rem;   /* 위 / 좌우 / 아래 여백 */
+
+      text-align: center;
+
+      /* 텍스트 전체를 조금 위로 끌어올리는 부분 */
+      transform: translateY(-40px);
+    }
+
+    /* 화면이 넓을수록 조금 더 위로 올리고 싶으면 */
+    @media (min-width: 1200px) {
+      .section-hero .hero_intro {
+        transform: translateY(-60px);
+      }
+    }
+
+    /* 시네마틱 슬라이드 전체 래퍼 */
+    .hero_video-wrapper {
+      position: relative;
+    }
+
+    /* 하단 점(도트) */
+    .hero_dots {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 0.6rem;
+
+      z-index: 30;          /* 위로 끌어올리기 */
+      pointer-events: auto; /* 클릭 허용 */
+    }
+
+    /* 전체 Hero 컨테이너 */
+    .hero-wrapper {
+        width: 80vw;          /* 전체 화면의 80% */
+        max-width: 1600px;    /* 최대 너비 제한 */
+        margin: 0 auto;       /* 가운데 정렬 */
+        position: relative;
+    }
+
+    /* 슬라이드 공통 */
+    .hero_slide {
+        width: 100%;
+        height: auto;
+        border-radius: 16px;
+    }
+
+    /* 설명 박스 */
+    .hero-caption {
+        left: 2.5vw;
+        bottom: 2.5vw;
+    }
+
+    /* 도트 */
+    .hero_dots {
+        bottom: 1.8vw;
+    }
+
+    /* 좌우 네비 버튼 */
+    .hero_nav-btn {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+  </style>
+</head>
+
+<body>
+  <main class="hero">
+    <div class="hero_inner">
+      <header class="site_header">
+  <div class="header_inner">
+    <a href="#hero" class="logo">
+      Kim Hyung Jin<span class="logo_sub"> / Game Design</span>
+    </a>
+
+    <nav class="nav">
+      <a href="#hero" class="nav_link active">Intro</a>
+      <a href="#about" class="nav_link">About</a>
+      <a href="#portfolio" class="nav_link">Selected Works</a>
+      <a href="#contact" class="nav_link">Contact</a>
+    </nav>
+  </div>
+</header>
+      <!-- 시네마틱 헤더 -->
+      <section id="hero" class="page_section section-hero">
+      <div class="hero_video-wrapper" aria-label="Selected Game Works Cinematic Intro">
+        <div class="hero_video-frame">
+          <div class="hero_video-layer">
+
+            <!-- 슬라이드 1: OBSCURA -->
+            <article class="hero_slide is-active"
+                     data-index="0"
+                     data-label="OBSCURA"
+                     data-meta="Cold War · Interactive Mystery"
+                     data-text="냉전기의 프라하를 무대로, 감시와 심리전이 교차하는 인터랙티브 미스터리 어드벤처. 작은 선택이 마리의 운명을 바꿉니다.">
+              <video src="TitleVideo1.mp4" autoplay muted playsinline loop></video>
+            </article>
+
+            <!-- 슬라이드 2: SPECULA -->
+            <article class="hero_slide"
+                     data-index="1"
+                     data-label="SPECULA (WORKING TITLE)"
+                     data-meta="2064 · Luminous Chronicle"
+                     data-text="발현체와 초월적 존재들이 드러난 이후, 수사관의 시점으로 세계의 균열을 기록하는 크로니클 프로젝트입니다.">
+              <video src="TitleVideo2.mp4" muted playsinline loop></video>
+            </article>
+
+            <!-- 슬라이드 3: CUNABULA -->
+            <article class="hero_slide"
+                     data-index="2"
+                     data-label="CUNABULA"
+                     data-meta="3D Turn-based Action RPG"
+                     data-text="핵전쟁 이후의 미국 동남부. 감정과 기억 시스템이 결합된 장기 턴제 RPG 기획으로, 사라와 루카의 생존을 다룹니다.">
+              <video src="ReadyVideo1.mp4" muted playsinline loop></video>
+            </article>
+
+            <!-- 슬라이드 4: AURELLA -->
+            <article class="hero_slide"
+                     data-index="3"
+                     data-label="AURELLA"
+                     data-meta="Coming-of-age · Luminous Legacy"
+                     data-text="성장기 루카/루나의 시선을 통해, 루미나스와 미지 코드를 함께 짊어진 세대의 이야기를 다루는 후속작 컨셉입니다.">
+              <video src="ReadyVideo2.mp4" muted playsinline loop></video>
+            </article>
+
+            <!-- 슬라이드 5: PERSONAL WORKS -->
+            <article class="hero_slide"
+                     data-index="4"
+                     data-label="EXPERIMENTS & SHORTS"
+                     data-meta="Prototypes · FX · Studies"
+                     data-text="FX 실험, 단편 시퀀스, 시스템 프로토타입 등 구체화되지 않은 아이디어들을 테스트하는 개인 작업 모음입니다.">
+              <video src="ReadyVideo3.mp4" muted playsinline loop></video>
+            </article>
+
+            <!-- Aurella 골드 느낌 겹쳐지는 오버레이 -->
+            <div class="hero_overlay-aurella"></div>
+
+            <!-- 상단 오른쪽 현재 프로젝트 뱃지 -->
+            <div class="hero_project-chip">
+              <span class="hero_project-chip-dot"></span>
+              <span id="hero-project-chip-label">OBSCURA · Primary Focus</span>
+            </div>
+
+            <!-- 좌측 하단 텍스트 캡션 -->
+            <div class="hero_caption" aria-live="polite">
+              <div class="hero_caption-label" id="hero-caption-label">OBSCURA</div>
+              <div class="hero_caption-title" id="hero-caption-title">Selected Game Works</div>
+              <div class="hero_caption-meta" id="hero-caption-meta">
+                COLD WAR · INTERACTIVE MYSTERY
+              </div>
+              <p class="hero_caption-text" id="hero-caption-text">
+                냉전기의 프라하를 무대로, 감시와 심리전이 교차하는 인터랙티브 미스터리 어드벤처. 작은 선택이 마리의 운명을 바꿉니다.
+              </p>
+            </div>
+
+            <!-- 좌우 네비게이션 -->
+            <div class="hero_nav">
+              <button class="hero_nav-btn" type="button" data-direction="prev" aria-label="이전 시네마틱">
+                ‹
+              </button>
+              <button class="hero_nav-btn" type="button" data-direction="next" aria-label="다음 시네마틱">
+                ›
+              </button>
+            </div>
+
+            <!-- 하단 인디케이터 점 -->
+            <div class="hero_dots" role="tablist" aria-label="Cinematic Slides">
+              <button class="hero_dot is-active" type="button" data-target="0" aria-label="OBSCURA 슬라이드"></button>
+              <button class="hero_dot" type="button" data-target="1" aria-label="SPECULA 슬라이드"></button>
+              <button class="hero_dot" type="button" data-target="2" aria-label="CUNABULA 슬라이드"></button>
+              <button class="hero_dot" type="button" data-target="3" aria-label="AURELLA 슬라이드"></button>
+              <button class="hero_dot" type="button" data-target="4" aria-label="PERSONAL WORKS 슬라이드"></button>
+            </div>
+          </div>
+        </div>
+
+            <!-- 인트로 텍스트 블록 -->
+            <div class="hero_intro">
+              <h1 class="hero_title">HYUNG JIN · GAME DESIGN</h1>
+              <p class="hero_tagline">Beyond the Imagination</p>
+
+              <p class="hero_text">
+                기획한 게임의 전반적인 서사와 어울리는 시스템 구조를 고안하고 자연스럽게 결합하여<br>
+                플레이어가 온전히 집중하여 몰입할 수 있는 게임 경험을 구상하고 설계하고 있습니다.<br>
+                시나리오, 세계관, 레벨 흐름까지 하나의 ‘완성된 경험’으로 엮는 기획자를 지향합니다.
+              </p>
+
+              <ul class="hero_keywords">
+                <li>Game Design</li>
+                <li>Narrative & Worldbuilding</li>
+                <li>Prototype & UX Flow</li>
+              </ul>
+            </div>
+
+      </section>
+
+      <!-- ABOUT ME -->
+    <section id="about" class="page_section section-about"></section>
+      <div class="section section-about" id="about">
+        <div class="section-inner section-about-inner">
+        <div class="about-left">
+        <div class="about-avatar">
+            <img src="Cari.jpg" alt="김형진 프로필 이미지">
+        </div>
+        </div>
+
+        <div class="about-right">
+        <p class="section-kicker">Game Designer · Narrative & Worldbuilding</p>
+        <h2 class="section-title">김형진 (Game Design · Narrative · System)</h2>
+
+        <p class="section-text">
+            냉전기 첩보와 포스트 아포칼립스, 그리고 초월적 세계관을 중심으로
+            이야기 구조를 설계하고, 감정의 흐름과 플레이 템포를 함께 디자인합니다.
+            기획 과정 자체를 즐기기 때문에, 구조와 의도, 연출을 동시에 보는 시야로
+            작업합니다.
+        </p>
+
+        <p class="section-text section-text-sub">
+            1인·소규모 팀 환경에서의 협업을 선호하며, 기획 문서와 더불어
+            스케치·와이어프레임·프로토타입까지 직접 만드는 타입입니다.
+        </p>
+
+        <div class="about-meta">
+            <span>Seoul, Korea</span>
+            <span>Game Planning · Narrative · System Design</span>
+        </div>
+
+        <div class="about-actions">
+            <a href="#portfolio" class="btn btn-primary">Selected Game Works</a>
+            <a href="#contact" class="btn btn-ghost">협업 / 채용 문의</a>
+        </div>
+
+        <div class="about-social">
+            <span class="about-social-label">Social</span>
+            <div class="about-social-links">
+            <a href="#" target="_blank">Instagram</a>
+            <a href="#" target="_blank">X (Twitter)</a>
+            <a href="#" target="_blank">YouTube</a>
+            <a href="#" target="_blank">KakaoTalk</a>
+            </div>
+        </div>
+        </div>
+    </div>
+    </section>
+
+    <section id="portfolio" class="page_section section-portfolio">
+      <div class="section section-portfolio" id="portfolio">
+        <div class="section-inner">
+            <p class="section-kicker">Selected Game Works</p>
+            <h2 class="section-title">주요 게임 프로젝트</h2>
+
+            <p class="section-text section-text-sub">
+            현재 진행 중이거나 장기 기획 중인 프로젝트들입니다.<br>
+            썸네일 이미지는 <strong>portfolio1~4.jpg</strong> 파일로 교체하며,
+            실제 인게임/기획 화면으로 점차 업데이트할 예정입니다.
+            </p>
+
+            <ul class="pf-grid">
+            <li class="pf-item">
+                <a href="#">
+                <div class="pf-thumb">
+                    <img src="portfolio1.jpg" alt="OBSCURA 썸네일">
+                    <span class="pf-badge">메인 프로젝트</span>
+                </div>
+                <h3 class="pf-title">OBSCURA – 인터랙티브 미스터리</h3>
+                <p class="pf-text">
+                    냉전기 베이스의 필름 누아르 감성 인터랙티브 게임.<br>
+                    심리·추리·첩보 요소를 결합한 1인 개발 포트폴리오 프로젝트.
+                </p>
+                </a>
+            </li>
+
+            <li class="pf-item">
+                <a href="#">
+                <div class="pf-thumb">
+                    <img src="portfolio2.jpg" alt="SPECTULA 썸네일">
+                    <span class="pf-badge">기획 단계</span>
+                </div>
+                <h3 class="pf-title">SPEQU(L)LA – 루미나스 크로니클</h3>
+                <p class="pf-text">
+                    2064년, 발현체와 초월적 존재의 흔적을 추적하는 수사관 시점 프로젝트.<br>
+                    루미나스/테네브라 크로니클의 중심 축.
+                </p>
+                </a>
+            </li>
+
+            <li class="pf-item">
+                <a href="#">
+                <div class="pf-thumb">
+                    <img src="portfolio3.jpg" alt="CUNABULA 썸네일">
+                    <span class="pf-badge">장기 기획</span>
+                </div>
+                <h3 class="pf-title">CUNABULA – 포스트 아포칼립스 RPG</h3>
+                <p class="pf-text">
+                    핵전쟁 이후 미국 동남부를 무대로 하는 3D 턴제 액션 RPG 기획안.<br>
+                    감정·기억 시스템이 결합된 장기 프로젝트.
+                </p>
+                </a>
+            </li>
+
+            <li class="pf-item">
+                <a href="#">
+                <div class="pf-thumb">
+                    <img src="portfolio4.jpg" alt="AURELA 썸네일">
+                    <span class="pf-badge">프리 프로덕션</span>
+                </div>
+                <h3 class="pf-title">AURELA – 루카 성장기</h3>
+                <p class="pf-text">
+                    쿠나뷸라 이후 루카의 사춘기와 성장, 초월적 세계와의 조우를 다루는 후속작 콘셉트.<br>
+                    감정·관계 중심의 서사 RPG 방향을 구상 중입니다.
+                </p>
+                </a>
+            </li>
+            </ul>
+        </div>
+        </section>
+
+        <section id="contact" class="page_section section-contact">
+          
+        </section>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      const slides = Array.from(document.querySelectorAll(".hero_slide"));
+      const dots = Array.from(document.querySelectorAll(".hero_dot"));
+      const btns = Array.from(document.querySelectorAll(".hero_nav-btn"));
+
+      const labelEl = document.getElementById("hero-caption-label");
+      const metaEl = document.getElementById("hero-caption-meta");
+      const textEl = document.getElementById("hero-caption-text");
+      const chipEl = document.getElementById("hero-project-chip-label");
+
+      let current = 0;
+      const SLIDE_INTERVAL = 8000; // 8초
+      let timer = null;
+
+      function updateCaption(index) {
+        const slide = slides[index];
+        const label = slide.getAttribute("data-label") || "";
+        const meta = slide.getAttribute("data-meta") || "";
+        const text = slide.getAttribute("data-text") || "";
+
+        labelEl.textContent = label;
+        metaEl.textContent = meta.toUpperCase();
+        textEl.textContent = text;
+
+        // 칩 텍스트도 슬라이드에 따라 변경
+        if (index === 0) {
+          chipEl.textContent = "OBSCURA · Primary Focus";
+        } else if (index === 1) {
+          chipEl.textContent = "SPECULA · Luminous Chronicle";
+        } else if (index === 2) {
+          chipEl.textContent = "CUNABULA · Long-term RPG Plan";
+        } else if (index === 3) {
+          chipEl.textContent = "AURELLA · Future Concept";
+        } else {
+          chipEl.textContent = "Experimental · Prototype Works";
+        }
+      }
+
+      function playActiveVideo(index) {
+        slides.forEach((slide, i) => {
+          const video = slide.querySelector("video");
+          if (!video) return;
+
+          if (i === index) {
+            try {
+              video.currentTime = 0;
+              video.play().catch(() => {});
+            } catch (e) {}
+          } else {
+            try {
+              video.pause();
+            } catch (e) {}
+          }
+        });
+      }
+
+      function goToSlide(index) {
+      const total = slides.length;
+
+      // 🔁 인덱스를 항상 0 ~ total-1 안에서 순환하게 만들기
+      current = (index + total) % total;
+
+      // 슬라이드 표시/숨김
+      slides.forEach((slide, i) => {
+        slide.classList.toggle("is-active", i === current);
+      });
+
+      // 도트(active 표시)
+      dots.forEach((dot, i) => {
+        dot.classList.toggle("is-active", i === current);
+      });
+      
+      // ★ 여기서 캡션도 현재 슬라이드 기준으로 갱신
+      updateCaption(current);
+
+      // 현재 슬라이드 영상 재생 로직이 있다면 여기에
+      if (typeof playActiveVideo === "function") {
+        playActiveVideo(current);
+      }
+    }
+
+      function nextSlide(step = 1) {
+        const total = slides.length;                      // 슬라이드 개수
+        const nextIndex = (current + step + total) % total;
+        goToSlide(nextIndex);
+      }
+
+      function startAutoSlide() {
+        clearInterval(timer);
+        timer = setInterval(() => {
+            nextSlide(1);
+          }, SLIDE_INTERVAL);
+      }
+
+      // 점 클릭
+      dots.forEach((dot) => {
+        dot.addEventListener("click", () => {
+          const target = parseInt(dot.getAttribute("data-target"), 10);
+          goToSlide(target);
+          startAutoSlide();      // ★ 클릭한 시점부터 다시 8초 카운트 시작
+        });
+      });
+
+      // 좌우 버튼
+      btns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const dir = btn.getAttribute("data-direction");
+          nextSlide(dir === "next" ? 1 : -1);
+          startAutoSlide();      // ★ 수동 넘긴 순간부터 다시 8초 카운트
+        });
+      });
+
+      // 최초 세팅
+      updateCaption(current);
+      playActiveVideo(current);
+      startAutoSlide();
+    })();
+
+    // ===== 섹션 스크롤에 따라 네비 활성화 =====
+    (() => {
+      const sections = document.querySelectorAll(".page_section[id]");
+      const navLinks = document.querySelectorAll(".nav_link");
+
+      if (!sections.length || !navLinks.length) return;
+
+      const observer = new IntersectionObserver(
+        entries => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+
+            const id = entry.target.id;
+            navLinks.forEach(link => {
+              const match = link.getAttribute("href") === `#${id}`;
+              link.classList.toggle("active", match);
+            });
+          });
+        },
+        {
+          rootMargin: "-55% 0px -40% 0px", // 화면 가운데쯤 들어오면 섹션 인식
+          threshold: 0
+        }
+      );
+
+      sections.forEach(sec => observer.observe(sec));
+    })();
+
+  </script>
+</body>
+</html>
